@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Maskinpark/Maskinpark.Client/Maskinpark.Client.csproj" />
+  <Project Path="Maskinpark/Maskinpark/Maskinpark.csproj" />
+</Solution>
