@@ -1,0 +1,21 @@
+﻿<table class="w-100 table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Status</th>
+            <th>Last Data</th>
+            <th>Last Updated</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var machine in Machines) {
+            <MachineTableRow Machine="machine" />
+        }
+    </tbody>
+</table>
+
+@code {
+    [Parameter]
+    public IReadOnlyList<Machine> Machines { get; set; } = [];
+}

@@ -10,14 +10,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Pages\Dashboard.razor.css" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Pages\Dashboard.razor.css" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.3" />
   </ItemGroup>
 

@@ -1,4 +1,4 @@
-﻿<div class="container bg-body-secondary d-flex align-items-center flex-column">
+﻿<div class="container-fluid bg-body-secondary d-flex align-items-center flex-column py-4">
     <div class="row">
         <div class="col">
             <h3>Dashboard</h3>
@@ -12,50 +12,8 @@
                 OfflineMachineCount="Machines.Count(m => !m.IsOnline)"
                 LastEditedMachineName="@Machines.OrderBy(m => m.LastUpdated).Last().Name" />
         </div>
-        <div class="col-6 bg-light w-100">
-            <table class="w-100">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Status</th>
-                        <th>Last Data</th>
-                        <th>Last Updated</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var machine in Machines) {
-                        <tr>
-                            <td>
-                                <div class="machine-name">@machine.Name</div>
-                                <div class="machine-id">@machine.Id</div>
-                            </td>
-                            <td>
-                                @if (machine.IsOnline) {
-                                    <div class="bg-success p-2 rounded">
-                                        Online
-                                    </div>
-                                } else {
-                                    <div class="bg-danger p-2 rounded">
-                                        Offline
-                                    </div>
-                                }
-                            </td>
-                            <td>
-                                @machine.LastData
-                            </td>
-                            <td>
-                                @machine.LastUpdated
-                            </td>
-                            <td>
-                                <button>@(machine.IsOnline ? "Stop" : "Start")</button>
-                                <button>Edit</button>
-                                <button>Delete</button>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+        <div class="col-6 bg-light">
+            <MachineOverviewTable Machines="Machines" />
         </div>
     </div>
 </div>
