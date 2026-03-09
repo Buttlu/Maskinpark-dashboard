@@ -5,14 +5,14 @@
         </div>
     </div>
     <div class="row gap-3">
-        <div class="col-5 bg-light">
+        <div class="col-5 bg-light p-3">
             <StatisticsSection 
                 MachineCount="Machines.Count" 
                 OnlineMachineCount="Machines.Count(m => m.IsOnline)" 
                 OfflineMachineCount="Machines.Count(m => !m.IsOnline)"
                 LastEditedMachineName="@Machines.OrderBy(m => m.LastUpdated).Last().Name" />
         </div>
-        <div class="col-6 bg-light">
+        <div class="col-6 bg-light px-0">
             <MachineOverviewTable Machines="Machines" />
         </div>
     </div>
