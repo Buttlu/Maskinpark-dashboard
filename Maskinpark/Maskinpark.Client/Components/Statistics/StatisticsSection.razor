@@ -1,0 +1,29 @@
+﻿<Statistic 
+    StatTitle="Total Machines" 
+    StatText="@MachineCount.ToString()" />
+
+<Statistic 
+    StatTitle="Online Machines" 
+    StatText="@OnlineMachineCount.ToString()" />
+
+<Statistic 
+    StatTitle="Offline Machines" 
+    StatText="@OfflineMachineCount.ToString()" />
+
+<Statistic 
+    StatTitle="Last Edited Machine" 
+    StatText="@LastEditedMachineName" />
+
+@code {
+    [Parameter]
+    public int MachineCount { get; set; }
+
+    [Parameter]
+    public int OnlineMachineCount { get; set; }
+
+    [Parameter]
+    public int OfflineMachineCount { get; set; }
+
+    [Parameter]
+    public string LastEditedMachineName { get; set; } = string.Empty;
+}

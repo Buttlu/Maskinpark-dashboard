@@ -1,61 +1,7 @@
 ﻿@page "/dashboard"
 @using Maskinpark.Client.Models
 
-
-<h3>Dashboard</h3>
-
-<div class="container">
-    <div class="row">
-        <div class="col-5">
-
-        </div>
-        <div class="col-7">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Status</th>
-                        <th>Last Data</th>
-                        <th>Last Updated</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var machine in _machines) {
-                        <tr>
-                            <td>
-                                <div class="machine-name">@machine.Name</div>
-                                <div class="machine-id">@machine.Id</div>
-                            </td>
-                            <td>
-                                @if (machine.IsOnline) {
-                                    <div class="bg-success p-2">
-                                        Online
-                                    </div>
-                                } else {
-                                    <div class="bg-danger p-2">
-                                        Offline
-                                    </div>
-                                }
-                            </td>
-                            <td>
-                                @machine.LastData
-                            </td>
-                            <td>
-                                @machine.LastUpdated
-                            </td>
-                            <td>
-                                <button>@(machine.IsOnline ? "Stop" : "Start")</button>
-                                <button>Edit</button>
-                                <button>Delete</button>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+<DashboardBoard Machines="_machines" />
 
 @code {
     private List<Machine> _machines = [];
@@ -63,9 +9,9 @@
     protected override void OnInitialized()
     {
         _machines = [
-            new() { Name = "Mixer 01", LastData = "Temp: 75°C" },
-            new() { Name = "Mixer 02", LastData = "RPM: 1500" },
-            new() { Name = "Crusher 01", LastData = "Amps: 34" },
+            new() { Name = "Mixer 01", LastData = "Temp: 75°C", LastUpdated = DateTime.Now.AddMinutes(-126) },
+            new() { Name = "Mixer 02", LastData = "RPM: 1500", IsOnline = true, LastUpdated = DateTime.Now.AddMinutes(-1424) },
+            new() { Name = "Crusher 01", LastData = "Amps: 34", LastUpdated = DateTime.Now.AddMinutes(-14) },
             new() { Name = "Pump 01", LastData = "Pressure: 120 bar" },
             new() { Name = "Roller 01", LastData = "Temp: 45°C", LastUpdated = DateTime.Now.AddMinutes(-1256) }
         ];
