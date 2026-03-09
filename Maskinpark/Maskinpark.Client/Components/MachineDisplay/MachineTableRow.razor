@@ -1,0 +1,33 @@
+﻿<tr>
+    <td>
+        <div class="machine-name">@Machine.Name</div>
+        <div class="machine-id">@Machine.Id</div>
+    </td>
+    <td>
+        @if (Machine.IsOnline) {
+            <div class="text-bg-success p-2 rounded">
+                Online
+            </div>
+        } else {
+            <div class="text-bg-danger p-2 rounded">
+                Offline
+            </div>
+        }
+    </td>
+    <td>
+        @Machine.LastData
+    </td>
+    <td>
+        <div>@Machine.LastUpdated.ToString("yyyy-MM-dd hh:mm:ss")</div>
+    </td>
+    <td>
+        <button class="btn btn-outline-secondary w-100 mb-2">@(Machine.IsOnline ? "Stop" : "Start")</button>
+        <button class="btn btn-outline-info w-100 mb-2">Edit</button>
+        <button class="btn btn-outline-danger w-100 mb-2">Delete</button>
+    </td>
+</tr>
+
+@code {
+    [Parameter]
+    public required Machine Machine { get; set; }
+}
