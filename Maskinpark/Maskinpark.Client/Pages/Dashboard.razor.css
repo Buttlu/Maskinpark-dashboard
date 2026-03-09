@@ -1,8 +1,8 @@
-﻿.machine-name, stats-title {
+﻿.machine-name {
     font-size: 12pt;
     font-weight: bold;
 }
 
-.machine-id, stats-text {
+.machine-id {
     font-size: 10pt;
 }

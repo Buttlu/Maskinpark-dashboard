@@ -1,47 +1,18 @@
-﻿<div class="d-inline-block">
-    <div class="d-inline-block" style="width: 50px; aspect-ratio: 1;">
-        <div class="w-100 h-100 d-flex justify-content-center align-items-center">
-            <!--Image--><div style="width: 25px; aspect-ratio: 1;" class="bg-info"></div>
-        </div>
-    </div>
-    <div class=" d-inline-block">
-        <div class="stats-title">Total Machines</div>
-        <div class="stats-text">@MachineCount</div>
-    </div>
-</div>
-<div class="d-inline-block">
-    <div class="d-inline-block" style="width: 50px; aspect-ratio: 1;">
-        <div class="w-100 h-100 d-flex justify-content-center align-items-center">
-            <!--Image--><div style="width: 25px; aspect-ratio: 1;" class="bg-info"></div>
-        </div>
-    </div>
-    <div class=" d-inline-block">
-        <div class="stats-title">Online Machines</div>
-        <div class="stats-text">@OnlineMachineCount</div>
-    </div>
-</div>
-<div class="d-inline-block">
-    <div class="d-inline-block" style="width: 50px; aspect-ratio: 1;">
-        <div class="w-100 h-100 d-flex justify-content-center align-items-center">
-            <!--Image--><div style="width: 25px; aspect-ratio: 1;" class="bg-info"></div>
-        </div>
-    </div>
-    <div class=" d-inline-block">
-        <div class="stats-title">Offline Machines</div>
-        <div class="stats-text">@OfflineMachineCount</div>
-    </div>
-</div>
-<div class="d-inline-block">
-    <div class="d-inline-block" style="width: 50px; aspect-ratio: 1;">
-        <div class="w-100 h-100 d-flex justify-content-center align-items-center">
-            <!--Image--><div style="width: 25px; aspect-ratio: 1;" class="bg-info"></div>
-        </div>
-    </div>
-    <div class=" d-inline-block">
-        <div class="stats-title">Last Edited Machine</div>
-        <div class="stats-text">@LastEditedMachineName</div>
-    </div>
-</div>
+﻿<Statistic 
+    StatTitle="Total Machines" 
+    StatText="@MachineCount.ToString()" />
+
+<Statistic 
+    StatTitle="Online Machines" 
+    StatText="@OnlineMachineCount.ToString()" />
+
+<Statistic 
+    StatTitle="Offline Machines" 
+    StatText="@OfflineMachineCount.ToString()" />
+
+<Statistic 
+    StatTitle="Last Edited Machine" 
+    StatText="@LastEditedMachineName" />
 
 @code {
     [Parameter]

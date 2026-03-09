@@ -10,7 +10,7 @@
                 MachineCount="Machines.Count" 
                 OnlineMachineCount="Machines.Count(m => m.IsOnline)" 
                 OfflineMachineCount="Machines.Count(m => !m.IsOnline)"
-                LastEditedMachineName="Machines.OrderBy(m => m.LastUpdated).Last().Name" />
+                LastEditedMachineName="@Machines.OrderBy(m => m.LastUpdated).Last().Name" />
         </div>
         <div class="col-6 bg-light w-100">
             <table class="w-100">
