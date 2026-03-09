@@ -2,15 +2,62 @@
 @using Maskinpark.Client.Models
 
 
-<h3>Dashboard</h3>
 
-<div class="container">
+<div class="container bg-body-secondary d-flex align-items-center flex-column">
     <div class="row">
-        <div class="col-5">
-
+        <div class="col">
+            <h3>Dashboard</h3>
         </div>
-        <div class="col-7">
-            <table>
+    </div>
+    <div class="row gap-3">
+        <div class="col-5 bg-light">
+            <div class="d-inline-block">
+                <div class="d-inline-block" style="width: 50px; aspect-ratio: 1;">
+                    <div class="w-100 h-100 d-flex justify-content-center align-items-center">
+                        <!--Image--><div style="width: 25px; aspect-ratio: 1;" class="bg-info"></div>
+                    </div>
+                </div>
+                <div class=" d-inline-block">
+                    <div class="stats-title">Total Machines</div>
+                    <div class="stats-text">@_machines.Count</div>
+                </div>
+            </div>
+            <div class="d-inline-block">
+                <div class="d-inline-block" style="width: 50px; aspect-ratio: 1;">
+                    <div class="w-100 h-100 d-flex justify-content-center align-items-center">
+                        <!--Image--><div style="width: 25px; aspect-ratio: 1;" class="bg-info"></div>
+                    </div>
+                </div>
+                <div class=" d-inline-block">
+                    <div class="stats-title">Online Machines</div>
+                    <div class="stats-text">@_machines.Count(m => m.IsOnline)</div>
+                </div>
+            </div>
+            <div class="d-inline-block">
+                <div class="d-inline-block" style="width: 50px; aspect-ratio: 1;">
+                    <div class="w-100 h-100 d-flex justify-content-center align-items-center">
+                        <!--Image--><div style="width: 25px; aspect-ratio: 1;" class="bg-info"></div>
+                    </div>
+                </div>
+                <div class=" d-inline-block">
+                    <div class="stats-title">Offline Machines</div>
+                    <div class="stats-text">@_machines.Count(m => !m.IsOnline)</div>
+                </div>
+            </div>
+            <div class="d-inline-block">
+                <div class="d-inline-block" style="width: 50px; aspect-ratio: 1;">
+                    <div class="w-100 h-100 d-flex justify-content-center align-items-center">
+                        <!--Image--><div style="width: 25px; aspect-ratio: 1;" class="bg-info"></div>
+                    </div>
+                </div>
+                <div class=" d-inline-block">
+                    <div class="stats-title">Last Edited Machine</div>
+                    <div class="stats-text">@_machines.OrderBy(m => m.LastUpdated).Last().Name</div>
+                </div>
+            </div>            
+        </div>
+        <div class="col-6 bg-light w-100">
+            <table class="w-100">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -29,11 +76,11 @@
                             </td>
                             <td>
                                 @if (machine.IsOnline) {
-                                    <div class="bg-success p-2">
+                                    <div class="bg-success p-2 rounded">
                                         Online
                                     </div>
                                 } else {
-                                    <div class="bg-danger p-2">
+                                    <div class="bg-danger p-2 rounded">
                                         Offline
                                     </div>
                                 }
@@ -63,9 +110,9 @@
     protected override void OnInitialized()
     {
         _machines = [
-            new() { Name = "Mixer 01", LastData = "Temp: 75°C" },
-            new() { Name = "Mixer 02", LastData = "RPM: 1500" },
-            new() { Name = "Crusher 01", LastData = "Amps: 34" },
+            new() { Name = "Mixer 01", LastData = "Temp: 75°C", LastUpdated = DateTime.Now.AddMinutes(-126) },
+            new() { Name = "Mixer 02", LastData = "RPM: 1500", IsOnline = true, LastUpdated = DateTime.Now.AddMinutes(-1424) },
+            new() { Name = "Crusher 01", LastData = "Amps: 34", LastUpdated = DateTime.Now.AddMinutes(-14) },
             new() { Name = "Pump 01", LastData = "Pressure: 120 bar" },
             new() { Name = "Roller 01", LastData = "Temp: 45°C", LastUpdated = DateTime.Now.AddMinutes(-1256) }
         ];
