@@ -1,25 +1,25 @@
 ﻿@page "/dashboard"
-@using Maskinpark.Client.Models
+@using MaskinPark.Shared.Dtos
 
 <DashboardBoard 
     Machines="_machines" 
     OnAdd="AddMachine" />
 
 @code {
-    private List<Machine> _machines = [];
+    private List<MachineDto> _machines = [];
 
     protected override void OnInitialized()
     {
         _machines = [
-            new() { Name = "Mixer 01", LastData = "Temp: 75°C", LastUpdated = DateTime.Now.AddMinutes(-126) },
-            new() { Name = "Mixer 02", LastData = "RPM: 1500", IsOnline = true, LastUpdated = DateTime.Now.AddMinutes(-1424) },
-            new() { Name = "Crusher 01", LastData = "Amps: 34", LastUpdated = DateTime.Now.AddMinutes(-14) },
-            new() { Name = "Pump 01", LastData = "Pressure: 120 bar" },
-            new() { Name = "Roller 01", LastData = "Temp: 45°C", LastUpdated = DateTime.Now.AddMinutes(-1256) }
+            new(Id: Guid.NewGuid(), Name: "Mixer 01", IsOnline: true, LastData: "Temp: 75°C", LastUpdated: DateTime.Now.AddMinutes(-126)),
+            new(Id: Guid.NewGuid(), Name: "Mixer 02", IsOnline: true, LastData: "RPM: 1500", LastUpdated: DateTime.Now.AddMinutes(-1424)),
+            new(Id: Guid.NewGuid(), Name: "Crusher 01", IsOnline: true, LastData: "Amps: 34", LastUpdated: DateTime.Now.AddMinutes(-14)),
+            new(Id: Guid.NewGuid(), Name: "Pump 01", IsOnline: true, LastData: "Pressure: 120 bar", LastUpdated: DateTime.Now),
+            new(Id: Guid.NewGuid(), Name: "Roller 01", IsOnline: true, LastData: "Temp: 45°C", LastUpdated: DateTime.Now.AddMinutes(-1256)),
         ];
     }
 
-    private void AddMachine(Machine machine)
+    private void AddMachine(MachineDto machine)
     {
         _machines.Add(machine);
     }
