@@ -6,13 +6,20 @@
     </div>
     <div class="row gap-3">
         <div class="col-5 bg-light p-3">
+            <h3>Overview Statistics</h3>
             <StatisticsSection 
                 MachineCount="Machines.Count" 
                 OnlineMachineCount="Machines.Count(m => m.IsOnline)" 
                 OfflineMachineCount="Machines.Count(m => !m.IsOnline)"
                 LastEditedMachineName="@Machines.OrderBy(m => m.LastUpdated).Last().Name" />
         </div>
-        <div class="col-6 bg-light px-0">
+        <div class="col-6 bg-light px-0 py-3">
+            <div class="d-flex justify-content-between">
+                <h3 class="d-inline-block ps-3">List of Machines</h3>
+                <div class="d-inline-block pe-3">
+                    <AddMachineForm OnAdd="OnAdd" />
+                </div>
+            </div>
             <MachineOverviewTable Machines="Machines" />
         </div>
     </div>
@@ -21,4 +28,7 @@
 @code {
     [Parameter]
     public IReadOnlyList<Machine> Machines { get; set; } = [];
+
+    [Parameter]
+    public EventCallback<Machine> OnAdd { get; set; }
 }

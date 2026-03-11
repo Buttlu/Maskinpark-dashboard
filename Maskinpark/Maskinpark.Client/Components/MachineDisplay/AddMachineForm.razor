@@ -1,0 +1,37 @@
+﻿@using System.Text
+<button class="btn btn-primary" @onclick="AddMachine">
+    Add New Machine
+</button>
+
+@code {
+    [Parameter]
+    public EventCallback<Machine> OnAdd { get; set; }
+
+    private string chars = "abcdefghijklmnopqrtuvwxyz";
+    private Random rnd = default!;
+
+    private async Task AddMachine()
+    {
+        if (!OnAdd.HasDelegate) {
+            return;            
+        }
+
+        Machine machine = new() {
+            Name = GenerateName(),
+            LastData = GenerateName()
+        };
+
+        await OnAdd.InvokeAsync(machine);
+    }
+
+    private string GenerateName()
+    {
+        rnd = new Random();
+        StringBuilder output = new();
+        for (int i = 0; i < rnd.Next(3, 10); i++) {
+            output.Append(chars[rnd.Next(chars.Length)]);
+        }
+        output.Append($" {rnd.Next(100)}");
+        return output.ToString();
+    }
+}
