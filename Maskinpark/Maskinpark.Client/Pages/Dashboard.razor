@@ -1,7 +1,9 @@
 ﻿@page "/dashboard"
 @using Maskinpark.Client.Models
 
-<DashboardBoard Machines="_machines" />
+<DashboardBoard 
+    Machines="_machines" 
+    OnAdd="AddMachine" />
 
 @code {
     private List<Machine> _machines = [];
@@ -15,5 +17,10 @@
             new() { Name = "Pump 01", LastData = "Pressure: 120 bar" },
             new() { Name = "Roller 01", LastData = "Temp: 45°C", LastUpdated = DateTime.Now.AddMinutes(-1256) }
         ];
+    }
+
+    private void AddMachine(Machine machine)
+    {
+        _machines.Add(machine);
     }
 }
