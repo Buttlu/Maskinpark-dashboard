@@ -1,12 +1,27 @@
 ﻿using Maskinpark.Models;
+using Maskinpark.Persistance;
+using Microsoft.EntityFrameworkCore;
 
 namespace Maskinpark.Infrastructure;
 
-public class MachineRepository : IMachineRepository
+public class MachineRepository(
+    IDbContextFactory<ApplicationDbContext> contextFactory,
+    ILogger<MachineRepository> logger
+) : IMachineRepository
 {
-    public bool AddMachine(Machine machine)
+    private readonly ApplicationDbContext _context = contextFactory.CreateDbContext();
+    private readonly ILogger<MachineRepository> _logger = logger;
+
+    public async Task<bool> AddMachine(Machine machine)
     {
-        throw new NotImplementedException();
+        try {
+            _context.Machines.Add(machine);
+            await _context.SaveChangesAsync();
+            return true;
+        } catch (Exception ex) {
+            _logger.LogError("Could not add machine to database: {ErrorMessage}", ex.Message);
+            return false;
+        }
     }
 
     public async Task<IReadOnlyCollection<Machine>> GetAllMachines()
@@ -14,43 +29,48 @@ public class MachineRepository : IMachineRepository
         throw new NotImplementedException();
     }
 
-    public bool RemoveMachine(Machine machine)
+    public Task<bool> RemoveMachine(Machine machine)
     {
         throw new NotImplementedException();
     }
 
-    public bool RemoveMachine(Guid machineId)
+    public Task<bool> RemoveMachine(Guid machineId)
     {
         throw new NotImplementedException();
     }
 
-    public bool StartMachine(Machine machine)
+    public Task<bool> StartMachine(Machine machine)
     {
         throw new NotImplementedException();
     }
 
-    public bool StartMachine(Guid machineId)
+    public Task<bool> StartMachine(Guid machineId)
     {
         throw new NotImplementedException();
     }
 
-    public bool StopMachine(Machine machine)
+    public Task<bool> StopMachine(Machine machine)
     {
         throw new NotImplementedException();
     }
 
-    public bool StopMachine(Guid machineId)
+    public Task<bool> StopMachine(Guid machineId)
     {
         throw new NotImplementedException();
     }
 
-    public bool UpdateMachineData(Machine machine, string newData)
+    public Task<bool> UpdateMachineData(Machine machine, string newData)
     {
         throw new NotImplementedException();
     }
 
-    public bool UpdateMachineData(Guid machineId, string newData)
+    public Task<bool> UpdateMachineData(Guid machineId, string newData)
     {
         throw new NotImplementedException();
+    }
+
+    public void Dispose()
+    {
+        _context.Dispose();
     }
 }

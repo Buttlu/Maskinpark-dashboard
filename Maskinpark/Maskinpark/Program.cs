@@ -1,7 +1,8 @@
 using Maskinpark.Client.Interfaces;
-using Maskinpark.Client.Pages;
 using Maskinpark.Components;
 using Maskinpark.Infrastructure;
+using Maskinpark.Persistance;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,11 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddScoped<IMachineRepository, MachineRepository>();
 builder.Services.AddScoped<IMachineService, MachineService>();
+
+builder.Services.AddDbContextFactory<ApplicationDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
+});
 
 var app = builder.Build();
 

@@ -10,6 +10,11 @@
   <ItemGroup>
     <ProjectReference Include="..\Maskinpark.Client\Maskinpark.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

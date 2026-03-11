@@ -1,20 +1,17 @@
 ﻿using Maskinpark.Client.Dtos;
 using Maskinpark.Client.Interfaces;
+using Maskinpark.Extensions;
 
 namespace Maskinpark.Infrastructure;
 
 public class MachineService(
-    IMachineRepository machineRepository,
-    IUnitOfWork unitOfWork
+    IMachineRepository machineRepository
 ) : IMachineService
 {
     private readonly IMachineRepository _machineRepository = machineRepository;
-    private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
     public async Task<bool> AddMachine(MachineDto machine)
-    {
-        throw new NotImplementedException();
-    }
+        => await _machineRepository.AddMachine(machine.ToEntity());
 
     public async Task<IReadOnlyCollection<MachineDto>> GetAllMachines()
     {
