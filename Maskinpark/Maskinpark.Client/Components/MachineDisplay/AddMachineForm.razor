@@ -5,7 +5,7 @@
 
 @code {
     [Parameter]
-    public EventCallback<Machine> OnAdd { get; set; }
+    public EventCallback<MachineDto> OnAdd { get; set; }
 
     private string chars = "abcdefghijklmnopqrtuvwxyz";
     private Random rnd = default!;
@@ -16,10 +16,13 @@
             return;            
         }
 
-        Machine machine = new() {
-            Name = GenerateName(),
-            LastData = GenerateName()
-        };
+        MachineDto machine = new(
+            Id: Guid.NewGuid(),
+            Name: GenerateName(),
+            IsOnline: false,
+            LastData: GenerateName(),
+            LastUpdated: DateTime.Now
+        );
 
         await OnAdd.InvokeAsync(machine);
     }

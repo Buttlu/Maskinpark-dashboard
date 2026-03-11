@@ -1,11 +1,16 @@
+using Maskinpark.Client.Interfaces;
 using Maskinpark.Client.Pages;
 using Maskinpark.Components;
+using Maskinpark.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
+
+builder.Services.AddScoped<IMachineRepository, MachineRepository>();
+builder.Services.AddScoped<IMachineService, MachineService>();
 
 var app = builder.Build();
 

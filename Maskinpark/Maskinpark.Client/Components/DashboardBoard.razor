@@ -27,8 +27,8 @@
 
 @code {
     [Parameter]
-    public IReadOnlyList<Machine> Machines { get; set; } = [];
+    public IReadOnlyList<MachineDto> Machines { get; set; } = [];
 
     [Parameter]
-    public EventCallback<Machine> OnAdd { get; set; }
+    public EventCallback<MachineDto> OnAdd { get; set; }
 }
