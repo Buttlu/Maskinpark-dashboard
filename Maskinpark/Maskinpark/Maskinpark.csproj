@@ -8,12 +8,23 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Maskinpark.Client\Maskinpark.Client.csproj" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.3" />
+    <Compile Remove="Infrastructure\**" />
+    <Content Remove="Infrastructure\**" />
+    <EmbeddedResource Remove="Infrastructure\**" />
+    <None Remove="Infrastructure\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Infrastructure\" />
+    <ProjectReference Include="..\..\MaskinPark.Contracts\MaskinPark.Contracts.csproj" />
+    <ProjectReference Include="..\..\MaskinPark.Infrastructure\MaskinPark.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\MaskinPark.Models\MaskinPark.Models.csproj" />
+    <ProjectReference Include="..\..\MaskinPark.Shared\MaskinPark.Shared.csproj" />
+    <ProjectReference Include="..\Maskinpark.Client\Maskinpark.Client.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 </Project>

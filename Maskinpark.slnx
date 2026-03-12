@@ -1,4 +1,8 @@
 <Solution>
+  <Project Path="MaskinPark.Contracts/MaskinPark.Contracts.csproj" Id="bfa7c434-043e-4a3c-8bdc-8f1b601a8d9b" />
+  <Project Path="MaskinPark.Infrastructure/MaskinPark.Infrastructure.csproj" Id="dd947df8-d04b-484c-b245-bcab9f7afba1" />
+  <Project Path="MaskinPark.Models/MaskinPark.Models.csproj" Id="2986c2e5-25a5-47ca-af6e-dca00657de2c" />
+  <Project Path="MaskinPark.Shared/MaskinPark.Shared.csproj" Id="83aa9613-7ee6-419e-9937-457f180677ba" />
   <Project Path="Maskinpark/Maskinpark.Client/Maskinpark.Client.csproj" />
   <Project Path="Maskinpark/Maskinpark/Maskinpark.csproj" />
 </Solution>
