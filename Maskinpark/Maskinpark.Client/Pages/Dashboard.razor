@@ -1,26 +1,37 @@
 ﻿@page "/dashboard"
+@using MaskinPark.Contracts
 @using MaskinPark.Shared.Dtos
+@inject IMachineService MachineService
 
 <DashboardBoard 
     Machines="_machines" 
     OnAdd="AddMachine" />
 
 @code {
+    // private List<MachineDto> _machines = [];
+
+    // protected override void OnInitialized()
+    // {
+    //     _machines = [
+    //         new(Id: Guid.NewGuid(), Name: "Mixer 01", IsOnline: true, LastData: "Temp: 75°C", LastUpdated: DateTime.Now.AddMinutes(-126)),
+    //         new(Id: Guid.NewGuid(), Name: "Mixer 02", IsOnline: true, LastData: "RPM: 1500", LastUpdated: DateTime.Now.AddMinutes(-1424)),
+    //         new(Id: Guid.NewGuid(), Name: "Crusher 01", IsOnline: true, LastData: "Amps: 34", LastUpdated: DateTime.Now.AddMinutes(-14)),
+    //         new(Id: Guid.NewGuid(), Name: "Pump 01", IsOnline: true, LastData: "Pressure: 120 bar", LastUpdated: DateTime.Now),
+    //         new(Id: Guid.NewGuid(), Name: "Roller 01", IsOnline: true, LastData: "Temp: 45°C", LastUpdated: DateTime.Now.AddMinutes(-1256)),
+    //     ];
+    // }
+
     private List<MachineDto> _machines = [];
 
-    protected override void OnInitialized()
+    protected async override void OnInitialized()
     {
-        _machines = [
-            new(Id: Guid.NewGuid(), Name: "Mixer 01", IsOnline: true, LastData: "Temp: 75°C", LastUpdated: DateTime.Now.AddMinutes(-126)),
-            new(Id: Guid.NewGuid(), Name: "Mixer 02", IsOnline: true, LastData: "RPM: 1500", LastUpdated: DateTime.Now.AddMinutes(-1424)),
-            new(Id: Guid.NewGuid(), Name: "Crusher 01", IsOnline: true, LastData: "Amps: 34", LastUpdated: DateTime.Now.AddMinutes(-14)),
-            new(Id: Guid.NewGuid(), Name: "Pump 01", IsOnline: true, LastData: "Pressure: 120 bar", LastUpdated: DateTime.Now),
-            new(Id: Guid.NewGuid(), Name: "Roller 01", IsOnline: true, LastData: "Temp: 45°C", LastUpdated: DateTime.Now.AddMinutes(-1256)),
-        ];
+        AddMachine(new(Id: Guid.NewGuid(), Name: "Mixer 01", IsOnline: true, LastData: "Temp: 75°C", LastUpdated: DateTime.Now.AddMinutes(-126)));
+        AddMachine(new(Id: Guid.NewGuid(), Name: "Mixer 02", IsOnline: true, LastData: "RPM: 1500", LastUpdated: DateTime.Now.AddMinutes(-1424)));
+        _machines = [.. (await MachineService.GetMachinesAsync())];
     }
 
     private void AddMachine(MachineDto machine)
     {
-        _machines.Add(machine);
+        MachineService.AddMachine(machine);
     }
 }
