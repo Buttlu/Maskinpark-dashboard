@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MaskinPark.Models\MaskinPark.Models.csproj" />
+    <ProjectReference Include="..\MaskinPark.Shared\MaskinPark.Shared.csproj" />
   </ItemGroup>
 
 </Project>

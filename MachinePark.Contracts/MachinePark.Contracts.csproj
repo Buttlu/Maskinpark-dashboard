@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\MaskinPark.Models\MaskinPark.Models.csproj" />
-  </ItemGroup>
-
 </Project>
