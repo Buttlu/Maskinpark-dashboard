@@ -20,8 +20,8 @@
     <ProjectReference Include="..\..\MaskinPark.Models\MaskinPark.Models.csproj" />
     <ProjectReference Include="..\..\MaskinPark.Shared\MaskinPark.Shared.csproj" />
     <ProjectReference Include="..\Maskinpark.Client\Maskinpark.Client.csproj" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.4">
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="10.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>

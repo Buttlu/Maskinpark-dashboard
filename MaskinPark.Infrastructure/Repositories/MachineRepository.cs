@@ -7,7 +7,7 @@ namespace MaskinPark.Infrastructure.Repositories;
 public class MachineRepository(ApplicationDbContext context) : IMachineRepository
 {
     private readonly ApplicationDbContext _context = context;
-    private readonly ICollection<Machine> _machines = [];
+    private static readonly List<Machine> _machines = [];
     public async Task AddMachine(Machine machine)
     {
         //_context.Machines.Add(machine);
