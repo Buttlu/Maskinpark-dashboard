@@ -1,37 +1,87 @@
 ﻿@page "/dashboard"
-@using MaskinPark.Contracts
-@using MaskinPark.Shared.Dtos
-@inject IMachineService MachineService
+@using Maskinpark.Client.Services
+@inject IClientApiService apiClient
+@inject ILogger<Dashboard> logger
 
-<DashboardBoard 
-    Machines="_machines" 
-    OnAdd="AddMachine" />
+@* Completely crashes if the _machines list is empty *@
+<DashboardBoard Machines="_machines"
+                OnAdd="AddMachine" 
+                OnRemove="RemoveMachine"
+                OnToggleStatus="ToggleMachineStatus"
+                OnUpdateData="UpdateMachineData" />
 
 @code {
-    // private List<MachineDto> _machines = [];
-
-    // protected override void OnInitialized()
-    // {
-    //     _machines = [
-    //         new(Id: Guid.NewGuid(), Name: "Mixer 01", IsOnline: true, LastData: "Temp: 75°C", LastUpdated: DateTime.Now.AddMinutes(-126)),
-    //         new(Id: Guid.NewGuid(), Name: "Mixer 02", IsOnline: true, LastData: "RPM: 1500", LastUpdated: DateTime.Now.AddMinutes(-1424)),
-    //         new(Id: Guid.NewGuid(), Name: "Crusher 01", IsOnline: true, LastData: "Amps: 34", LastUpdated: DateTime.Now.AddMinutes(-14)),
-    //         new(Id: Guid.NewGuid(), Name: "Pump 01", IsOnline: true, LastData: "Pressure: 120 bar", LastUpdated: DateTime.Now),
-    //         new(Id: Guid.NewGuid(), Name: "Roller 01", IsOnline: true, LastData: "Temp: 45°C", LastUpdated: DateTime.Now.AddMinutes(-1256)),
-    //     ];
-    // }
-
-    private List<MachineDto> _machines = [];
+    private List<MachineDto> _machines = [/* new(Id: Guid.NewGuid(), Name: "Mixer 01", IsOnline: true, LastData: "Temp: 75°C", LastUpdated: DateTime.Now.AddMinutes(-126)) */];
 
     protected async override void OnInitialized()
     {
         AddMachine(new(Id: Guid.NewGuid(), Name: "Mixer 01", IsOnline: true, LastData: "Temp: 75°C", LastUpdated: DateTime.Now.AddMinutes(-126)));
         AddMachine(new(Id: Guid.NewGuid(), Name: "Mixer 02", IsOnline: true, LastData: "RPM: 1500", LastUpdated: DateTime.Now.AddMinutes(-1424)));
-        _machines = [.. (await MachineService.GetMachinesAsync())];
+        AddMachine(new(Id: Guid.NewGuid(), Name: "Crusher 01", IsOnline: true, LastData: "Amps: 34", LastUpdated: DateTime.Now.AddMinutes(-14)));
+        AddMachine(new(Id: Guid.NewGuid(), Name: "Pump 01", IsOnline: false, LastData: "Pressure: 120 bar", LastUpdated: DateTime.Now));
+        AddMachine(new(Id: Guid.NewGuid(), Name: "Roller 01", IsOnline: true, LastData: "Temp: 45°C", LastUpdated: DateTime.Now.AddMinutes(-1256)));
+
+        _machines = await GetMachines();
     }
+
+    private async Task<List<MachineDto>> GetMachines()
+    {
+        //return (await apiClient.GetAllMachinesAsync())?.ToList() ?? [];
+        return _machines;
+    }
+
+    private MachineDto? GetMachineById(Guid machineId)
+        => _machines.FirstOrDefault(m => m.Id == machineId);
 
     private void AddMachine(MachineDto machine)
     {
-        MachineService.AddMachine(machine);
+        //apiClient.AddMachineAsync(machine);
+        _machines.Add(machine);
     }
+
+    private void RemoveMachine(Guid machineId)
+    {
+        var machine = GetMachineById(machineId);
+        if (machine is null) {
+            return;
+        }
+
+        _machines.Remove(machine);
+    }
+
+    private void ToggleMachineStatus(Guid machineId)
+    {
+        var machine = GetMachineById(machineId);
+        if (machine is null) {
+            return;
+        }
+
+        var newMachine = machine with { IsOnline = !machine.IsOnline, LastUpdated = DateTime.Now };
+        machine = newMachine;
+        UpdateMachineInList(machine, newMachine);
+    }
+
+    private void UpdateMachineData(UpdateMachineDataDto updateDto)
+    {
+        var machine = GetMachineById(updateDto.MachineId);
+        if (machine is null) {
+            return;
+        }
+
+        var newMachine = machine with { LastData = updateDto.NewData, LastUpdated = DateTime.Now };
+        machine = newMachine;
+        UpdateMachineInList(machine, newMachine);
+    }
+
+    private void UpdateMachineInList(MachineDto oldMachine, MachineDto newMachine)
+    {
+        var index = _machines.IndexOf(oldMachine);
+        if (index == -1)
+        {
+            var machine = _machines.FirstOrDefault(m => m.Id == oldMachine.Id)
+                ?? throw new ArgumentNullException($"Machine with Id: {oldMachine.Id} not found");
+            index = _machines.IndexOf(machine);
+        }
+        _machines[index] = newMachine;
+    }        
 }

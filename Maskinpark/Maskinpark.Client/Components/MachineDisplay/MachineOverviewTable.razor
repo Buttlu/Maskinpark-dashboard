@@ -10,12 +10,23 @@
     </thead>
     <tbody>
         @foreach (var machine in Machines) {
-            <MachineTableRow Machine="machine" />
+            <MachineTableRow 
+                Machine="machine"
+                OnRemove="OnRemove"
+                OnToggleStatus="OnToggleStatus"
+                OnUpdateData="OnUpdateData" />
         }
     </tbody>
 </table>
 
 @code {
     [Parameter]
-    public IReadOnlyList<MachineDto> Machines { get; set; } = [];
+    public List<MachineDto> Machines { get; set; } = [];
+
+    [Parameter]
+    public EventCallback<Guid> OnRemove { get; set; }
+    [Parameter]
+    public EventCallback<Guid> OnToggleStatus { get; set; }
+    [Parameter]
+    public EventCallback<UpdateMachineDataDto> OnUpdateData { get; set; }
 }

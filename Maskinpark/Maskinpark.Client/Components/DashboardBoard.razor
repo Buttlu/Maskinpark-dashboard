@@ -20,15 +20,25 @@
                     <AddMachineForm OnAdd="OnAdd" />
                 </div>
             </div>
-            <MachineOverviewTable Machines="Machines" />
+            <MachineOverviewTable 
+                Machines="Machines" 
+                OnRemove="OnRemove"
+                OnToggleStatus="OnToggleStatus"
+                OnUpdateData="OnUpdateData" />
         </div>
     </div>
 </div>
 
 @code {
     [Parameter]
-    public IReadOnlyList<MachineDto> Machines { get; set; } = [];
+    public List<MachineDto> Machines { get; set; } = [];
 
     [Parameter]
     public EventCallback<MachineDto> OnAdd { get; set; }
+    [Parameter]
+    public EventCallback<Guid> OnRemove { get; set; }
+    [Parameter]
+    public EventCallback<Guid> OnToggleStatus { get; set; }
+    [Parameter]
+    public EventCallback<UpdateMachineDataDto> OnUpdateData { get; set; }
 }

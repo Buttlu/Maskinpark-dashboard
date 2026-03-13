@@ -1,4 +1,5 @@
-﻿<tr>
+﻿@using System.Text
+<tr>
     <td>
         <div class="machine-name">@Machine.Name</div>
         <div class="machine-id">@Machine.Id</div>
@@ -21,13 +22,67 @@
         <div>@Machine.LastUpdated.ToString("yyyy-MM-dd hh:mm:ss")</div>
     </td>
     <td>
-        <button class="btn btn-outline-secondary w-100 mb-1 btn-sm">@(Machine.IsOnline ? "Stop" : "Start")</button>
-        <button class="btn btn-outline-info w-100 mb-1 btn-sm">Edit</button>
-        <button class="btn btn-outline-danger w-100 mb-1 btn-sm">Delete</button>
+        <button class="btn btn-outline-secondary w-100 mb-1 btn-sm" @onclick="ToggleStatus">@(Machine.IsOnline ? "Stop" : "Start")</button>
+        <button class="btn btn-outline-info w-100 mb-1 btn-sm" @onclick="UpdateData">Edit</button>
+        <button class="btn btn-outline-danger w-100 mb-1 btn-sm" @onclick="RemoveMachine">Delete</button>
     </td>
 </tr>
 
 @code {
     [Parameter]
     public required MachineDto Machine { get; set; }
+
+    [Parameter]
+    public EventCallback<Guid> OnRemove { get; set; }
+    [Parameter]
+    public EventCallback<Guid> OnToggleStatus { get; set; }
+    [Parameter]
+    public EventCallback<UpdateMachineDataDto> OnUpdateData { get; set; }
+
+    private async Task RemoveMachine()
+    {
+        if (!OnRemove.HasDelegate)
+        {
+            return;            
+        }
+
+        await OnRemove.InvokeAsync(Machine.Id);
+    }
+
+    private async Task ToggleStatus()
+    {
+        if (!OnToggleStatus.HasDelegate)
+        {
+            return;
+        }
+
+        await OnToggleStatus.InvokeAsync(Machine.Id);
+    }
+
+    private async Task UpdateData()
+    {
+        if (!OnUpdateData.HasDelegate)
+        {
+            return;
+        }
+
+        UpdateMachineDataDto updateDto = new(
+            MachineId: Machine.Id,
+            NewData: GenerateName()
+        );
+
+        await OnUpdateData.InvokeAsync(updateDto);
+    }
+
+    private string GenerateName()
+    {
+        const string chars = "abcdefghijklmnopqrtuvwxyz";
+        var rnd = new Random();
+        StringBuilder output = new();
+        for (int i = 0; i < rnd.Next(3, 10); i++) {
+            output.Append(chars[rnd.Next(chars.Length)]);
+        }
+        output.Append($" {rnd.Next(100)}");
+        return output.ToString();
+    }
 }
