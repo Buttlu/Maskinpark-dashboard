@@ -1,19 +1,19 @@
-﻿<div class="container-fluid bg-body-secondary d-flex align-items-center flex-column py-4">
+﻿<div class="container bg-body-secondary d-flex align-items-center flex-column py-4">
     <div class="row">
         <div class="col">
             <h3>Dashboard</h3>
         </div>
     </div>
-    <div class="row gap-3">
+    <div class="row gap-3 mh-100">
         <div class="col-5 bg-light p-3">
             <h3>Overview Statistics</h3>
             <StatisticsSection 
                 MachineCount="Machines.Count" 
                 OnlineMachineCount="Machines.Count(m => m.IsOnline)" 
                 OfflineMachineCount="Machines.Count(m => !m.IsOnline)"
-                LastEditedMachineName="@Machines.OrderBy(m => m.LastUpdated).Last().Name" />
+                LastEditedMachineName="@_lastUpdatedMachine" />
         </div>
-        <div class="col-6 bg-light px-0 py-3">
+        <div class="col-6 bg-light px-0 py-3 overflow-y-scoll">
             <div class="d-flex justify-content-between">
                 <h3 class="d-inline-block ps-3">List of Machines</h3>
                 <div class="d-inline-block pe-3">
@@ -32,6 +32,7 @@
 @code {
     [Parameter]
     public List<MachineDto> Machines { get; set; } = [];
+    private string _lastUpdatedMachine = "";
 
     [Parameter]
     public EventCallback<MachineDto> OnAdd { get; set; }
@@ -41,4 +42,15 @@
     public EventCallback<Guid> OnToggleStatus { get; set; }
     [Parameter]
     public EventCallback<UpdateMachineDataDto> OnUpdateData { get; set; }
+
+    protected override void OnInitialized()
+        => GetLastUpdatedMachineName();
+
+    protected override void OnParametersSet()
+        => GetLastUpdatedMachineName();    
+
+    private string GetLastUpdatedMachineName()
+        => _lastUpdatedMachine = Machines.Count > 0 ?
+                Machines.OrderBy(m => m.LastUpdated).Last().Name :
+                "No machine to display";
 }

@@ -1,23 +1,25 @@
-﻿<table class="w-100 table table-striped">
-    <thead>
-        <tr>
-            <th class="text-center">Name</th>
-            <th class="text-center">Status</th>
-            <th class="text-center">Last Data</th>
-            <th class="text-center">Last Updated</th>
-            <th class="text-center">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var machine in Machines) {
-            <MachineTableRow 
-                Machine="machine"
-                OnRemove="OnRemove"
-                OnToggleStatus="OnToggleStatus"
-                OnUpdateData="OnUpdateData" />
+﻿<div class="container w-100">
+    <div class="row">
+        <div class="col-4"><span class="text-center">Name</span></div>
+        <div class="col-2"><span class="text-center">Status</span></div>
+        <div class="col-2"><span class="text-center">Last Data</span></div>
+        <div class="col-2"><span class="text-center">Last Updated</span></div>
+        <div class="col-2"><span class="text-center">Actions</span></div>
+    </div>
+    <div class="row">
+        @if (Machines.Count > 0) {
+            @foreach (var machine in Machines) {
+                <MachineTableRow @key="machine.Id"
+                                 Machine="machine"
+                                 OnRemove="OnRemove"
+                                 OnToggleStatus="OnToggleStatus"
+                                 OnUpdateData="OnUpdateData" />
+            }
+        } else {
+            <div>Nothing Machines to Display</div>
         }
-    </tbody>
-</table>
+    </div>
+</div>
 
 @code {
     [Parameter]

@@ -10,8 +10,11 @@ using System.Net.Http.Headers;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorComponents()
-    .AddInteractiveWebAssemblyComponents();
+builder.Services.AddRazorComponents(options =>
+{
+    options.DetailedErrors = builder.Environment.IsDevelopment();
+})
+.AddInteractiveWebAssemblyComponents();
 
 builder.Services.AddControllers();
 

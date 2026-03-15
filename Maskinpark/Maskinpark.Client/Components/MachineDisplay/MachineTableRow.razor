@@ -1,36 +1,38 @@
 ﻿@using System.Text
-<tr>
-    <td>
-        <div class="machine-name">@Machine.Name</div>
-        <div class="machine-id">@Machine.Id</div>
-    </td>
-    <td>
-        @if (Machine.IsOnline) {
-            <div class="text-bg-success p-2 rounded">
-                Online
-            </div>
-        } else {
-            <div class="text-bg-danger p-2 rounded">
-                Offline
-            </div>
-        }
-    </td>
-    <td>
-        @Machine.LastData
-    </td>
-    <td>
-        <div>@Machine.LastUpdated.ToString("yyyy-MM-dd hh:mm:ss")</div>
-    </td>
-    <td>
-        <button class="btn btn-outline-secondary w-100 mb-1 btn-sm" @onclick="ToggleStatus">@(Machine.IsOnline ? "Stop" : "Start")</button>
-        <button class="btn btn-outline-info w-100 mb-1 btn-sm" @onclick="UpdateData">Edit</button>
-        <button class="btn btn-outline-danger w-100 mb-1 btn-sm" @onclick="RemoveMachine">Delete</button>
-    </td>
-</tr>
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            <div class="machine-name">@Machine.Name</div>
+            <div class="machine-id">@Machine.Id</div>
+        </div>
+        <div class="col-2">
+            @if (Machine.IsOnline) {
+                <div class="text-bg-success p-2 rounded">
+                    Online
+                </div>
+            } else {
+                <div class="text-bg-danger p-2 rounded">
+                    Offline
+                </div>
+            }
+        </div>
+        <div class="col-2">
+            @Machine.LastData
+        </div>
+        <div class="col-2">
+            <div>@Machine.LastUpdated.ToString("yyyy-MM-dd hh:mm:ss")</div>
+        </div>
+        <div class="col-2">
+            <button class="btn btn-outline-secondary w-100 mb-1 btn-sm" @onclick="ToggleStatus">@(Machine.IsOnline ? "Stop" : "Start")</button>
+            <button class="btn btn-outline-info w-100 mb-1 btn-sm" @onclick="UpdateData">Edit</button>
+            <button class="btn btn-outline-danger w-100 mb-1 btn-sm" @onclick="RemoveMachine">Delete</button>
+        </div>
+    </div>
+</div>
 
 @code {
     [Parameter]
-    public required MachineDto Machine { get; set; }
+    public MachineDto Machine { get; set; } = default!;
 
     [Parameter]
     public EventCallback<Guid> OnRemove { get; set; }
@@ -41,9 +43,8 @@
 
     private async Task RemoveMachine()
     {
-        if (!OnRemove.HasDelegate)
-        {
-            return;            
+        if (!OnRemove.HasDelegate) {
+            return;
         }
 
         await OnRemove.InvokeAsync(Machine.Id);
@@ -51,8 +52,7 @@
 
     private async Task ToggleStatus()
     {
-        if (!OnToggleStatus.HasDelegate)
-        {
+        if (!OnToggleStatus.HasDelegate) {
             return;
         }
 
@@ -61,8 +61,7 @@
 
     private async Task UpdateData()
     {
-        if (!OnUpdateData.HasDelegate)
-        {
+        if (!OnUpdateData.HasDelegate) {
             return;
         }
 

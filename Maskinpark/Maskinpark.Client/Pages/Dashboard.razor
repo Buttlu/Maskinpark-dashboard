@@ -1,17 +1,15 @@
 ﻿@page "/dashboard"
 @using Maskinpark.Client.Services
-@inject IClientApiService apiClient
-@inject ILogger<Dashboard> logger
+@inject IClientApiService ApiClient
 
-@* Completely crashes if the _machines list is empty *@
 <DashboardBoard Machines="_machines"
-                OnAdd="AddMachine" 
+                OnAdd="AddMachine"
                 OnRemove="RemoveMachine"
                 OnToggleStatus="ToggleMachineStatus"
                 OnUpdateData="UpdateMachineData" />
 
 @code {
-    private List<MachineDto> _machines = [/* new(Id: Guid.NewGuid(), Name: "Mixer 01", IsOnline: true, LastData: "Temp: 75°C", LastUpdated: DateTime.Now.AddMinutes(-126)) */];
+    private List<MachineDto> _machines = []; 
 
     protected async override void OnInitialized()
     {
@@ -26,8 +24,8 @@
 
     private async Task<List<MachineDto>> GetMachines()
     {
-        //return (await apiClient.GetAllMachinesAsync())?.ToList() ?? [];
-        return _machines;
+        return (await ApiClient.GetAllMachinesAsync())?.ToList() ?? [];
+        //return _machines;
     }
 
     private MachineDto? GetMachineById(Guid machineId)
@@ -35,8 +33,8 @@
 
     private void AddMachine(MachineDto machine)
     {
-        //apiClient.AddMachineAsync(machine);
-        _machines.Add(machine);
+        ApiClient.AddMachineAsync(machine);
+        //_machines.Add(machine);
     }
 
     private void RemoveMachine(Guid machineId)
@@ -76,12 +74,11 @@
     private void UpdateMachineInList(MachineDto oldMachine, MachineDto newMachine)
     {
         var index = _machines.IndexOf(oldMachine);
-        if (index == -1)
-        {
-            var machine = _machines.FirstOrDefault(m => m.Id == oldMachine.Id)
+        if (index == -1) {
+            var machine = GetMachineById(oldMachine.Id)
                 ?? throw new ArgumentNullException($"Machine with Id: {oldMachine.Id} not found");
             index = _machines.IndexOf(machine);
         }
         _machines[index] = newMachine;
-    }        
+    }
 }
