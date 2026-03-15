@@ -11,13 +11,9 @@
 @code {
     private List<MachineDto> _machines = []; 
 
-    protected async override void OnInitialized()
+    protected async override Task OnInitializedAsync()
     {
-        AddMachine(new(Id: Guid.NewGuid(), Name: "Mixer 01", IsOnline: true, LastData: "Temp: 75°C", LastUpdated: DateTime.Now.AddMinutes(-126)));
-        AddMachine(new(Id: Guid.NewGuid(), Name: "Mixer 02", IsOnline: true, LastData: "RPM: 1500", LastUpdated: DateTime.Now.AddMinutes(-1424)));
-        AddMachine(new(Id: Guid.NewGuid(), Name: "Crusher 01", IsOnline: true, LastData: "Amps: 34", LastUpdated: DateTime.Now.AddMinutes(-14)));
-        AddMachine(new(Id: Guid.NewGuid(), Name: "Pump 01", IsOnline: false, LastData: "Pressure: 120 bar", LastUpdated: DateTime.Now));
-        AddMachine(new(Id: Guid.NewGuid(), Name: "Roller 01", IsOnline: true, LastData: "Temp: 45°C", LastUpdated: DateTime.Now.AddMinutes(-1256)));
+        await SeedData();
 
         _machines = await GetMachines();
     }
@@ -31,9 +27,10 @@
     private MachineDto? GetMachineById(Guid machineId)
         => _machines.FirstOrDefault(m => m.Id == machineId);
 
-    private void AddMachine(MachineDto machine)
+    private async Task AddMachine(MachineDto machine)
     {
-        ApiClient.AddMachineAsync(machine);
+        await ApiClient.AddMachineAsync(machine);
+        _machines = await GetMachines();
         //_machines.Add(machine);
     }
 
@@ -80,5 +77,14 @@
             index = _machines.IndexOf(machine);
         }
         _machines[index] = newMachine;
+    }
+
+    private async Task SeedData()
+    {
+        await AddMachine(new(Id: Guid.NewGuid(), Name: "Mixer 01", IsOnline: true, LastData: "Temp: 75°C", LastUpdated: DateTime.Now.AddMinutes(-126)));
+        await AddMachine(new(Id: Guid.NewGuid(), Name: "Mixer 02", IsOnline: true, LastData: "RPM: 1500", LastUpdated: DateTime.Now.AddMinutes(-1424)));
+        await AddMachine(new(Id: Guid.NewGuid(), Name: "Crusher 01", IsOnline: true, LastData: "Amps: 34", LastUpdated: DateTime.Now.AddMinutes(-14)));
+        await AddMachine(new(Id: Guid.NewGuid(), Name: "Pump 01", IsOnline: false, LastData: "Pressure: 120 bar", LastUpdated: DateTime.Now));
+        await AddMachine(new(Id: Guid.NewGuid(), Name: "Roller 01", IsOnline: true, LastData: "Temp: 45°C", LastUpdated: DateTime.Now.AddMinutes(-1256)));
     }
 }

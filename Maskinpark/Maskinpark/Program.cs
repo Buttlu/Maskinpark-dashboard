@@ -1,3 +1,4 @@
+using Maskinpark.Client.Services;
 using Maskinpark.Components;
 using MaskinPark.Contracts;
 using MaskinPark.Infrastructure.Persistance;
@@ -38,6 +39,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IMachineService, MachineService>();
 builder.Services.AddScoped<IMachineRepository, MachineRepository>();
 builder.Services.AddScoped(provider => new Lazy<IMachineRepository>(() => provider.GetRequiredService<IMachineRepository>()));
+builder.Services.AddScoped<IClientApiService, ClientApiService>();
 
 var app = builder.Build();
 
