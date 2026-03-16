@@ -1,35 +1,31 @@
 ﻿using MaskinPark.Contracts;
 using MaskinPark.Infrastructure.Persistance;
 using MaskinPark.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace MaskinPark.Infrastructure.Repositories;
 
 public class MachineRepository(ApplicationDbContext context) : IMachineRepository
 {
     private readonly ApplicationDbContext _context = context;
-    private static readonly List<Machine> _machines = [];
-    public async Task AddMachine(Machine machine)
-    {
-        //_context.Machines.Add(machine);
-        _machines.Add(machine);
-    }
+    public async Task AddMachine(Machine machine)    
+        => _context.Machines.Add(machine);
+    
 
     public async Task<Machine?> GetMachineByIdAsync(Guid machineId)
-    {
-        return _machines.FirstOrDefault(m => m.Id == machineId);
-    }
+        => _context.Machines.FirstOrDefault(m => m.Id == machineId);
 
     public async Task<IReadOnlyCollection<Machine>> GetMachinesAsync()
-    {
-        return [.. _machines];
-    }
+        => await _context.Machines
+            .AsNoTracking()
+            .ToListAsync();
 
     public async Task RemoveMachine(Guid machineId)
     {
         var machine = await GetMachineByIdAsync(machineId)
             ?? throw new ArgumentNullException(nameof(machineId));
 
-        _machines.Remove(machine);
+        _context.Machines.Remove(machine);
     }
 
     public async Task StartMachine(Guid machineId)
